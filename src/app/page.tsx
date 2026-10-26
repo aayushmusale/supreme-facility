@@ -1,69 +1,141 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { ClosingCta } from "@/components/home/closing-cta";
+import { Hero } from "@/components/home/hero";
+import { Leadership } from "@/components/home/leadership";
+import { Scale } from "@/components/home/scale";
+import { Sectors } from "@/components/home/sectors";
+import { Services } from "@/components/home/services";
 
-export default function Home() {
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main id="main-content">
+      <Hero />
+      <Scale />
+      <Services />
+      <Sectors />
+      <Leadership />
+      <ClosingCta />
+    </main>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// import Link from "next/link";
+
+// const proposedServices = [
+//   {
+//     number: "01",
+//     title: "Integrated facility management",
+//     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
+//     alt: "Glass-fronted commercial building",
+//   },
+//   {
+//     number: "02",
+//     title: "Supply chain solutions",
+//     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=85",
+//     alt: "Warehouse shelves and logistics equipment",
+//   },
+//   {
+//     number: "03",
+//     title: "Employee transportation",
+//     image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=85",
+//     alt: "Passenger bus on a road",
+//   },
+//   {
+//     number: "04",
+//     title: "Corporate food solutions",
+//     image: "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=1200&q=85",
+//     alt: "Prepared meal served on a plate",
+//   },
+//   {
+//     number: "05",
+//     title: "Production support",
+//     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=85",
+//     alt: "Industrial production equipment",
+//   },
+// ];
+
+// export default function Home() {
+//   return (
+//     <main id="main-content" className="home-page">
+//       <section className="home-hero" aria-labelledby="home-title">
+//         <div className="home-hero__image" aria-hidden="true" />
+//         <div className="home-hero__shade" aria-hidden="true" />
+//         <div className="home-container home-hero__content">
+//           <p className="eyebrow eyebrow--light">Supreme Facility Management</p>
+//           <h1 id="home-title">Supreme Facility <em>Management</em></h1>
+//           <p className="home-hero__note">Company information and service details are being prepared for review.</p>
+//           <div className="home-actions">
+//             <Link className="button button--light" href="#services">Explore services <span aria-hidden="true">↗</span></Link>
+//           <Link className="button button--outline-light" href="#company">About the company</Link>
+//           </div>
+//         </div>
+//         <a className="scroll-cue" href="#company"><span>Discover</span><span className="scroll-cue__line" aria-hidden="true" /></a>
+//       </section>
+
+//       <section id="company" className="company-intro" aria-labelledby="company-title">
+//         <div className="home-container company-intro__grid">
+//           <div>
+//             <p className="eyebrow eyebrow--light">Company</p>
+//             <h2 id="company-title">Supreme Facility Management</h2>
+//           </div>
+//           <div className="company-intro__copy">
+//             <p>Approved company profile content will be added after stakeholder review.</p>
+//             <span className="gold-rule" aria-hidden="true" />
+//           </div>
+//         </div>
+//       </section>
+
+//       <section id="services" className="services-section" aria-labelledby="services-title">
+//         <div className="home-container">
+//           <div className="section-heading">
+//             <div>
+//               <p className="eyebrow">Services</p>
+//               <h2 id="services-title">Service areas</h2>
+//             </div>
+//             <p className="section-heading__note">Proposed categories from the draft requirements. Details are pending review by the relevant service owners.</p>
+//           </div>
+
+//           <div className="service-grid">
+//             {proposedServices.map((service) => (
+//               <article className="service-card" key={service.number}>
+//                 <div className="service-card__image" role="img" aria-label={service.alt} style={{ backgroundImage: `url("${service.image}")` }} />
+//                 <div className="service-card__shade" aria-hidden="true" />
+//                 <div className="service-card__content">
+//                   <span className="service-card__number">{service.number}</span>
+//                   <h3>{service.title}</h3>
+//                   <span className="service-card__pending">Details pending approval</span>
+//                 </div>
+//               </article>
+//             ))}
+//           </div>
+//         </div>
+//       </section>
+
+//       <section className="home-closing" aria-labelledby="closing-title">
+//         <div className="home-closing__image" aria-hidden="true" />
+//         <div className="home-closing__shade" aria-hidden="true" />
+//         <div className="home-container home-closing__content">
+//           <p className="eyebrow eyebrow--light">Supreme Facility Management</p>
+//           <h2 id="closing-title">Explore the company</h2>
+//           <p>Additional pages will be published as approved company information becomes available.</p>
+//           <Link className="button button--light" href="#company">About Supreme <span aria-hidden="true">↗</span></Link>
+//         </div>
+//       </section>
+//     </main>
+//   );
+// }
