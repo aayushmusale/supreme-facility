@@ -326,7 +326,7 @@ export const servicePages: ServicePage[] = [
     },
     title: "Your reliable employee transportation partner",
     lead: "Efficient employee transportation solutions for smooth, safe daily commutes.",
-    heroImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80", // TEMPORARY
+    heroImage: "/ETS.jpeg", // TEMPORARY
     heroAlt: "Passenger bus on a road",
     intro: {
       heading: "Delivering excellence in employee transport",

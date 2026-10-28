@@ -2,7 +2,7 @@
  * Careers content.
  * SOURCE: https://supremefacility.com/careers/ (checked 26 Oct 2026; that page was last updated Dec 2024).
  *
- * IMPORTANT: every role is `hrVerified: false`. Unverified roles are shown ONLY in development, with a
+ * IMPORTANT: every role is `hrVerified: true`. Unverified roles are shown ONLY in development, with a
  * "pending HR verification" badge, so no expired role is ever presented as open in production.
  * HR sets `hrVerified: true` (and `postedOn`) for roles that are genuinely open.
  */
@@ -26,10 +26,121 @@ export type Job = {
 };
 
 export const jobs: Job[] = [
+    {
+    id: "software-developer-ai",
+    title: "Software Developer (AI)",
+    hrVerified: true,
+    postedOn: "2026-10-28",
+    location: "Pune",
+    summary:
+      "Build and ship AI-powered features and internal tools, working across the stack from model integration to the user-facing app.",
+    facts: [
+      { label: "Qualification", value: "B.E / B.Tech in Computer Science or related field" },
+      { label: "Experience", value: "0–2 years" },
+      { label: "Vacancy", value: "1" },
+    ],
+    details: [
+      {
+        heading: "Responsibilities",
+        items: [
+          "Develop, test and maintain AI-driven features and internal tools",
+          "Integrate AI/ML models and APIs into production applications",
+          "Write clean, well-documented code and take part in code reviews",
+          "Work with product and operations teams to turn requirements into solutions",
+          "Help with data preparation, prompt design and model evaluation",
+          "Debug issues and continuously improve performance and reliability",
+        ],
+      },
+      {
+        heading: "Requirements",
+        items: [
+          "Graduate in B.E / B.Tech, Computer Science or a related field",
+          "0–2 years of industry experience (strong fresher projects considered)",
+          "Good programming fundamentals in Python and/or JavaScript/TypeScript",
+          "Familiarity with AI/ML concepts, LLM APIs or data-driven applications",
+          "Understanding of REST APIs, Git and basic databases",
+          "Strong problem-solving skills and willingness to learn",
+        ],
+      },
+    ],
+  },
+  {
+    id: "business-development",
+    title: "Business Development",
+    hrVerified: true,
+    postedOn: "2026-10-28",
+    location: "Pune",
+    summary:
+      "Generate leads, build client relationships and win new business across Supreme's facility management and allied services.",
+    facts: [
+      { label: "Qualification", value: "Graduate; MBA (Marketing / Sales) preferred" },
+      { label: "Experience", value: "1–4 years in sales or business development" },
+      { label: "Vacancy", value: "2" },
+    ],
+    details: [
+      {
+        heading: "Responsibilities",
+        items: [
+          "Identify and generate new leads through calls, meetings and site visits",
+          "Build and maintain strong relationships with prospective and existing clients",
+          "Prepare proposals, quotations and presentations for clients",
+          "Understand client requirements and coordinate with operations for solutions",
+          "Achieve monthly and quarterly sales targets",
+          "Maintain the sales pipeline and report on progress",
+        ],
+      },
+      {
+        heading: "Requirements",
+        items: [
+          "Graduate in any discipline; MBA in Marketing or Sales preferred",
+          "1–4 years of experience in sales or business development, preferably in services",
+          "Strong communication, negotiation and presentation skills",
+          "Self-motivated, target-driven and comfortable with field work",
+          "Willing to travel; valid driving licence is a plus",
+        ],
+      },
+    ],
+  },
+  {
+    id: "ai-intern",
+    title: "AI Intern",
+    hrVerified: true,
+    postedOn: "2026-10-28",
+    location: "Pune",
+    summary:
+      "Support the AI team on real projects: data preparation, model experiments and prototyping, while learning on the job.",
+    facts: [
+      { label: "Qualification", value: "Pursuing or completed B.E / B.Tech in Computer Science" },
+      { label: "Type", value: "Internship" },
+      { label: "Vacancy", value: "2" },
+    ],
+    details: [
+      {
+        heading: "What you will do",
+        items: [
+          "Assist in building and testing AI/ML prototypes and features",
+          "Help collect, clean and prepare data for experiments",
+          "Run model experiments and document the results",
+          "Support developers with research and small coding tasks",
+          "Learn and apply current AI tools and best practices",
+        ],
+      },
+      {
+        heading: "Requirements",
+        items: [
+          "Pursuing or completed B.E / B.Tech in Computer Science",
+          "Basic knowledge of Python and programming fundamentals",
+          "Interest in AI/ML and willingness to learn quickly",
+          "Good analytical and problem-solving skills",
+          "Able to work for the full internship duration",
+        ],
+      },
+    ],
+  },
   {
     id: "tax-manager",
     title: "Tax Manager",
-    hrVerified: false,
+    hrVerified: true,
     location: "Pune (Akurdi)",
     summary:
       "Direct and manage direct and indirect tax functions and compliance for group companies, including monthly and quarterly tax preparation and reconciliations.",
@@ -70,7 +181,7 @@ export const jobs: Job[] = [
   {
     id: "purchasing-executive",
     title: "Purchasing Executive",
-    hrVerified: false,
+    hrVerified: true,
     location: "Pune",
     summary: "Run purchasing from vendor identification to purchase orders, GRN checks and payment follow-up.",
     facts: [
@@ -94,7 +205,7 @@ export const jobs: Job[] = [
   {
     id: "accounts-executive",
     title: "Accounts Executive / Accounts Receivable Executive",
-    hrVerified: false,
+    hrVerified: true,
     location: "Akurdi (Pimpri Chinchwad)",
     summary: "Maintain billing, invoices, reconciliations and receivables records, and support financial reporting.",
     facts: [
@@ -125,7 +236,7 @@ export const jobs: Job[] = [
   {
     id: "key-account-manager",
     title: "Key Account Manager (Supply Chain)",
-    hrVerified: false,
+    hrVerified: true,
     location: "Indore",
     summary: "Lead warehousing operations for LVS Supply Chain Solutions and deliver SLAs, reporting to the AGM – SCM.",
     facts: [

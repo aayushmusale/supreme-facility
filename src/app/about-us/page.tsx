@@ -41,9 +41,9 @@ export default function AboutPage() {
         lead={aboutIntro}
         showActions={false}
       />
-      <AboutSectionNav />
+      {/* <AboutSectionNav /> */}
 
-      <section id="overview" aria-labelledby="overview-title" className="scroll-mt-40 bg-white py-16 md:py-24">
+      <section id="overview" aria-labelledby="overview-title" className="scroll-mt-40 bg-white py-8 md:py-12">
         <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <h2 id="overview-title" className={sectionHeading}>

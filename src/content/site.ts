@@ -86,7 +86,8 @@ export const services = [
     href: "/employee-transportation-services/",
     summary:
       "Smooth, secure employee commutes through reliable transportation designed for your workforce's safety, well-being and productivity.",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
+    // image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
+    image: "/ETS.jpeg",
     alt: "Passenger bus on a road",
   },
   {
@@ -94,7 +95,8 @@ export const services = [
     href: "/corporate-food-solutions/",
     summary:
       "We manage your food and beverage services with precision, delivering nourishment and satisfaction to your workforce.",
-    image: "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
+    // image: "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
+    image: "/CFS.jpeg",
     alt: "Prepared meal served on a plate",
   },
   {

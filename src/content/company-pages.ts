@@ -57,16 +57,16 @@ export const companyPages: ServicePage[] = [
           },
         ],
       },
-      {
-        type: "gallery",
-        heading: "Life at Supreme",
-        images: [
-          { src: `${wp}/2023/07/image-1.jpg`, alt: "Team members at a Supreme event" },
-          { src: `${wp}/2023/08/image-3.jpg`, alt: "Supreme employees together at work" },
-          { src: `${wp}/2023/08/image-2.jpg`, alt: "Supreme team celebration" },
-          { src: `${wp}/2023/08/image-1.jpg`, alt: "Supreme staff group photo" },
-        ],
-      },
+      // {
+      //   type: "gallery",
+      //   heading: "Life at Supreme",
+      //   images: [
+      //     { src: `${wp}/2023/07/image-1.jpg`, alt: "Team members at a Supreme event" },
+      //     { src: `${wp}/2023/08/image-3.jpg`, alt: "Supreme employees together at work" },
+      //     { src: `${wp}/2023/08/image-2.jpg`, alt: "Supreme team celebration" },
+      //     { src: `${wp}/2023/08/image-1.jpg`, alt: "Supreme staff group photo" },
+      //   ],
+      // },
     ],
     faqs: [],
     cta: {

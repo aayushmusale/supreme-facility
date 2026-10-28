@@ -10,8 +10,6 @@ export const metadata = pageMetadata({
   path: "/careers/",
 });
 
-const wp = "https://supremefacility.com/wp-content/uploads";
-
 export default function CareersPage() {
   const openings = visibleJobs();
 
@@ -21,7 +19,7 @@ export default function CareersPage() {
         breadcrumbs={[{ label: "Careers", href: "/careers/" }]}
         title="Build your career with Supreme"
         lead="Grow with a company that has been creating better workplaces since 1983."
-        image={`${wp}/2023/11/career-banner-1.jpg`}
+        image="/career.jpeg"
         imageAlt="Supreme Facility Management team members at work"
         showActions={false}
       />
