@@ -87,7 +87,7 @@ export default function InvestorPage() {
           <p className="mt-3 max-w-2xl text-muted">
             The same contacts handle grievance redressal under Regulation 46 of the SEBI (LODR) Regulations.
           </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2">
             <ContactCard contact={investorContacts.companySecretary} />
             <ContactCard contact={investorContacts.registrar} />
           </div>
@@ -128,7 +128,7 @@ export default function InvestorPage() {
             </table>
           </div>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div className="mt-10 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-2">
             {committees.map((committee) => (
               <div key={committee.name} className="overflow-x-auto rounded-2xl border border-line bg-white">
                 <p className="border-b border-line px-4 py-3 font-display font-semibold">{committee.name}</p>

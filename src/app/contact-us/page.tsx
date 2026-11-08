@@ -40,7 +40,7 @@ export default async function ContactPage({ searchParams }: Props) {
       />
 
       <section aria-labelledby="enquiry-title" className="py-16 md:py-24">
-        <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-16">
+        <div className="container-page grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-16">
           <div className="space-y-10 lg:sticky lg:top-28 lg:self-start">
             <div>
               <h2 className="font-display text-2xl font-semibold">Reach us directly</h2>

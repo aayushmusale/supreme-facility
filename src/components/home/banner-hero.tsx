@@ -34,7 +34,7 @@ export function BannerHero({ nextId = "company-intro" }: { nextId?: string }) {
         </p>
         <h1
           id="hero-title"
-          className={`${headline.className} mt-4 text-[clamp(2.4rem,7.4vw,6.75rem)] leading-[1.02] tracking-[-0.01em] uppercase`}
+          className={`${headline.className} mt-4 text-[clamp(2.1rem,7.4vw,6.75rem)] leading-[1.02] tracking-[-0.01em] uppercase`}
         >
           <span className="block text-[#85182a] md:inline">Supreme Operational</span>{" "}
           <span className="block text-transparent [-webkit-text-stroke:1.5px_white] md:inline md:[-webkit-text-stroke:2px_white]">

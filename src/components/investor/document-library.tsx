@@ -26,13 +26,13 @@ export function DocumentLibrary({ categories, years }: { categories: InvestorCat
   }, [categories, categoryId, year]);
 
   const selectClass =
-    "h-11 rounded-xl border border-line bg-white px-3 text-[0.95rem] focus:border-brand-600 focus:outline-none";
+    "h-11 w-full min-w-0 rounded-xl border border-line bg-white px-3 text-[0.95rem] focus:border-brand-600 focus:outline-none";
 
   return (
     <div>
-      <div className="flex flex-wrap gap-3">
-        <label className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted">Category</span>
+      <div className="flex flex-wrap gap-3 max-sm:flex-col">
+        <label className="flex min-w-0 max-w-full items-center gap-2 max-sm:w-full">
+          <span className="shrink-0 text-sm font-medium text-muted">Category</span>
           <select value={categoryId} onChange={(event) => setCategoryId(event.target.value)} className={selectClass}>
             <option value={ALL}>All categories</option>
             {categories.map((category) => (
@@ -42,8 +42,8 @@ export function DocumentLibrary({ categories, years }: { categories: InvestorCat
             ))}
           </select>
         </label>
-        <label className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted">Year</span>
+        <label className="flex min-w-0 max-w-full items-center gap-2 max-sm:w-full">
+          <span className="shrink-0 text-sm font-medium text-muted">Year</span>
           <select value={year} onChange={(event) => setYear(event.target.value)} className={selectClass}>
             <option value={ALL}>All years</option>
             {years.map((y) => (

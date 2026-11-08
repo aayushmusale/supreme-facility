@@ -44,7 +44,10 @@ export function SiteHeader() {
       }
     };
     const onPointerDown = (e: PointerEvent) => {
-      if (headerRef.current && !headerRef.current.contains(e.target as Node)) setOpenMenu(null);
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
+        setMobileOpen(false); // tapping the page behind the menu closes it
+      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("keydown", onKey);
@@ -56,13 +59,6 @@ export function SiteHeader() {
       window.clearTimeout(closeTimer.current);
     };
   }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
 
   const closeAll = () => {
     setOpenMenu(null);
@@ -95,7 +91,9 @@ export function SiteHeader() {
       onFocusCapture={() => setHidden(false)}
       className={cn(
         "fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] sm:px-4",
-        hidden && !mobileOpen && !openMenu ? "-translate-y-[140%]" : "translate-y-0",
+        // No transform at all while visible: any transform/translate on this element would turn it into the
+        // containing block of the fixed mobile menu panel and collapse that panel to a few pixels.
+        hidden && !mobileOpen && !openMenu ? "-translate-y-[140%]" : "",
       )}
     >
       <div
@@ -112,10 +110,10 @@ export function SiteHeader() {
         >
           <Image src="/logo-removebg-preview.png" alt="" width={423} height={590} priority className="h-11 w-auto shrink-0" />
           <span className="flex min-w-0 flex-col leading-none">
-            <span className="font-display text-[0.62rem] min-[360px]:text-[0.72rem] font-bold tracking-[0.02em] whitespace-nowrap text-brand-700 uppercase sm:text-[0.95rem] lg:text-[0.68rem] xl:text-[1.1rem]">
+            <span className="font-display text-[0.68rem] tracking-[0] min-[360px]:text-[0.72rem] font-bold tracking-[0.02em] whitespace-nowrap max-[359px]:whitespace-normal max-[359px]:leading-[1.15] text-brand-700 uppercase sm:text-[0.95rem] lg:text-[0.68rem] xl:text-[1.1rem]">
               Supreme Facility Management
             </span>
-            <span className="mt-1 text-[0.68rem] font-medium tracking-[0.12em] text-muted uppercase sm:text-xs">Since 1983</span>
+            <span className="mt-1 text-[0.7rem] font-medium tracking-[0.12em] text-muted uppercase sm:text-xs">Since 1983</span>
           </span>
         </Link>
 
@@ -206,7 +204,7 @@ export function SiteHeader() {
       <div
         id="mobile-navigation"
         hidden={!mobileOpen}
-        className="fixed inset-x-3 top-[5.25rem] bottom-3 animate-pop overflow-y-auto overscroll-contain rounded-2xl border border-line bg-white p-3 shadow-2xl sm:inset-x-4 lg:hidden"
+        className="fixed inset-x-3 top-[5.5rem] max-h-[calc(100dvh-6.5rem)] animate-pop overflow-y-auto overscroll-contain rounded-3xl border border-line bg-white p-3 shadow-2xl [-webkit-overflow-scrolling:touch] sm:inset-x-4 lg:hidden"
       >
         <nav aria-label="Mobile">
           <ul className="divide-y divide-line">
