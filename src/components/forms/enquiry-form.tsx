@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useRef, type ReactNode } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { submitEnquiry } from "@/app/contact-us/actions";
-import { serviceOptions } from "@/lib/enquiry-options";
+import { ServicePicker } from "@/components/contact/service-picker";
 import type { EnquiryField, EnquiryState } from "@/lib/enquiry-schema";
 import { cn } from "@/lib/utils";
 
@@ -66,7 +66,7 @@ export function EnquiryForm({ defaultService }: { defaultService?: string }) {
   if (state.status === "success") {
     return (
       <div ref={successRef} tabIndex={-1} role="status" className="rounded-3xl border border-line bg-white p-8 md:p-10">
-        <CheckCircle2 aria-hidden className="size-10 text-brand-600" />
+        <CheckCircle2 aria-hidden className="size-10 text-brand-700" />
         <h3 className="mt-4 font-display text-2xl font-semibold">Enquiry sent</h3>
         <p className="mt-3 max-w-md leading-relaxed text-muted">
           Thank you. Our team has received your enquiry and will contact you using the details you provided.
@@ -121,20 +121,9 @@ export function EnquiryForm({ defaultService }: { defaultService?: string }) {
         <Field name="phone" label="Phone" required error={errors.phone}>
           {(props) => <input {...props} name="phone" type="tel" autoComplete="tel" required defaultValue={values.phone} className={inputClass} />}
         </Field>
-        <Field name="service" label="Service of interest" required error={errors.service}>
-          {(props) => (
-            <select {...props} name="service" required defaultValue={values.service ?? defaultService ?? ""} className={inputClass}>
-              <option value="" disabled>
-                Choose a service
-              </option>
-              {serviceOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          )}
-        </Field>
+        <div className="sm:col-span-2">
+          <ServicePicker value={values.service ?? defaultService} error={errors.service} />
+        </div>
         <Field name="location" label="Site location" hint="City or state where you need the service." error={errors.location}>
           {(props) => <input {...props} name="location" type="text" autoComplete="address-level2" defaultValue={values.location} className={inputClass} />}
         </Field>
@@ -173,7 +162,7 @@ export function EnquiryForm({ defaultService }: { defaultService?: string }) {
         type="submit"
         disabled={pending}
         className={cn(
-          "mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand-600 px-7 font-medium text-white transition-colors hover:bg-brand-700",
+          "mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-brand-600 px-7 font-medium text-white transition-colors hover:bg-brand-800",
           pending && "cursor-wait opacity-80",
         )}
       >

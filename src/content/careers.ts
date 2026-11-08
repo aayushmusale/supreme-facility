@@ -14,9 +14,13 @@ export const careersIntro = [
   "We offer competitive compensation, focus on career advancement and believe in nurturing talent from within. Join us in creating better environments, delivering quality services and building a brighter future.",
 ];
 
+export type JobTeam = "Technology" | "Sales" | "Finance" | "Supply chain";
+
 export type Job = {
   id: string;
   title: string;
+  /** Functional group, used only for the filter on the careers page (not shown as a claim about reporting lines). */
+  team: JobTeam;
   hrVerified: boolean;
   postedOn?: string;
   location: string;
@@ -29,6 +33,7 @@ export const jobs: Job[] = [
     {
     id: "software-developer-ai",
     title: "Software Developer (AI)",
+    team: "Technology",
     hrVerified: true,
     postedOn: "2026-10-28",
     location: "Pune",
@@ -67,6 +72,7 @@ export const jobs: Job[] = [
   {
     id: "business-development",
     title: "Business Development",
+    team: "Sales",
     hrVerified: true,
     postedOn: "2026-10-28",
     location: "Pune",
@@ -104,6 +110,7 @@ export const jobs: Job[] = [
   {
     id: "ai-intern",
     title: "AI Intern",
+    team: "Technology",
     hrVerified: true,
     postedOn: "2026-10-28",
     location: "Pune",
@@ -140,6 +147,7 @@ export const jobs: Job[] = [
   {
     id: "tax-manager",
     title: "Tax Manager",
+    team: "Finance",
     hrVerified: true,
     location: "Pune (Akurdi)",
     summary:
@@ -181,6 +189,7 @@ export const jobs: Job[] = [
   {
     id: "purchasing-executive",
     title: "Purchasing Executive",
+    team: "Supply chain",
     hrVerified: true,
     location: "Pune",
     summary: "Run purchasing from vendor identification to purchase orders, GRN checks and payment follow-up.",
@@ -205,6 +214,7 @@ export const jobs: Job[] = [
   {
     id: "accounts-executive",
     title: "Accounts Executive / Accounts Receivable Executive",
+    team: "Finance",
     hrVerified: true,
     location: "Akurdi (Pimpri Chinchwad)",
     summary: "Maintain billing, invoices, reconciliations and receivables records, and support financial reporting.",
@@ -236,6 +246,7 @@ export const jobs: Job[] = [
   {
     id: "key-account-manager",
     title: "Key Account Manager (Supply Chain)",
+    team: "Supply chain",
     hrVerified: true,
     location: "Indore",
     summary: "Lead warehousing operations for LVS Supply Chain Solutions and deliver SLAs, reporting to the AGM – SCM.",

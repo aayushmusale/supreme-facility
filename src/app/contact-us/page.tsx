@@ -1,4 +1,5 @@
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { Channels } from "@/components/contact/channels";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { PageHero } from "@/components/page/page-hero";
 import { mapsUrl, otherOffices } from "@/content/contact";
@@ -21,9 +22,9 @@ export default async function ContactPage({ searchParams }: Props) {
   const defaultService = requested && serviceValues.includes(requested) ? requested : undefined;
 
   const channels = [
-    { icon: Phone, label: "Call us", value: company.phone.display, href: company.phone.href, external: false },
-    { icon: Mail, label: "Email us", value: company.email, href: `mailto:${company.email}`, external: false },
-    { icon: MessageCircle, label: "WhatsApp", value: "Chat with our team", href: company.whatsapp, external: true },
+    { icon: "phone" as const, label: "Call us", value: company.phone.display, href: company.phone.href, action: "Call now", copy: company.phone.display },
+    { icon: "mail" as const, label: "Email us", value: company.email, href: `mailto:${company.email}`, action: "Write to us", copy: company.email },
+    { icon: "chat" as const, label: "WhatsApp", value: "Chat with our team", href: company.whatsapp, action: "Start a chat", external: true },
   ];
 
   return (
@@ -33,39 +34,25 @@ export default async function ContactPage({ searchParams }: Props) {
         title="Let's talk about your sites"
         lead="Book an appointment by visiting or calling us, or send an enquiry and the right team will contact you."
         showActions={false}
+        image="/contact-us-bg.jpg"
+        imageAlt=""
+        overlay="side"
       />
 
       <section aria-labelledby="enquiry-title" className="py-16 md:py-24">
         <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-16">
-          <div className="space-y-10">
+          <div className="space-y-10 lg:sticky lg:top-28 lg:self-start">
             <div>
               <h2 className="font-display text-2xl font-semibold">Reach us directly</h2>
-              <ul className="mt-6 divide-y divide-line rounded-2xl border border-line bg-white">
-                {channels.map(({ icon: Icon, label, value, href, external }) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      className="flex items-center gap-4 p-5 transition-colors hover:bg-stone"
-                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    >
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
-                        <Icon aria-hidden className="size-5" />
-                      </span>
-                      <span>
-                        <span className="block text-sm text-muted">{label}</span>
-                        <span className="block font-medium break-all">{value}</span>
-                      </span>
-                      {external && <span className="sr-only">(opens in a new tab)</span>}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-6">
+                <Channels channels={channels} />
+              </div>
             </div>
 
             <div>
               <h2 className="font-display text-2xl font-semibold">Registered office</h2>
-              <address className="mt-4 flex gap-3 leading-relaxed not-italic text-ink/80">
-                <MapPin aria-hidden className="mt-1 size-5 shrink-0 text-brand-600" />
+              <address className="mt-4 flex gap-3 leading-relaxed not-italic text-ink">
+                <MapPin aria-hidden className="mt-1 size-5 shrink-0 text-brand-700" />
                 <span>
                   <span className="block font-medium text-ink">{company.legalName}</span>
                   {company.address.join(" ")}
@@ -85,7 +72,8 @@ export default async function ContactPage({ searchParams }: Props) {
               <h2 className="font-display text-2xl font-semibold">Our other offices</h2>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {otherOffices.map((city) => (
-                  <li key={city} className="rounded-full border border-line bg-white px-4 py-2 text-[0.95rem]">
+                  <li key={city} className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-[0.95rem]">
+                    <MapPin aria-hidden className="size-3.5 text-brand-700" />
                     {city}
                   </li>
                 ))}

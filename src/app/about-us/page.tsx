@@ -43,13 +43,13 @@ export default function AboutPage() {
       />
       {/* <AboutSectionNav /> */}
 
-      <section id="overview" aria-labelledby="overview-title" className="scroll-mt-40 bg-white py-8 md:py-12">
+      <section id="overview" aria-labelledby="overview-title" className="scroll-mt-40 bg-stone py-8 md:py-12">
         <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <h2 id="overview-title" className={sectionHeading}>
               Overview
             </h2>
-            <div className="mt-6 space-y-5 text-lg leading-relaxed text-pretty text-ink/80">
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-pretty text-ink">
               {aboutOverview.paragraphs.map((paragraph) => (
                 <p key={paragraph.slice(0, 40)}>{paragraph}</p>
               ))}
@@ -86,7 +86,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="leadership" aria-labelledby="leadership-title" className="scroll-mt-40 bg-white py-16 md:py-24">
+      <section id="leadership" aria-labelledby="leadership-title" className="scroll-mt-40 bg-stone py-16 md:py-24">
         <div className="container-page">
           <h2 id="leadership-title" className={sectionHeading}>
             Leadership
@@ -107,7 +107,7 @@ export default function AboutPage() {
                 <ul className="mt-5 space-y-3">
                   {group.items.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <Check aria-hidden className="mt-1 size-4 shrink-0 text-brand-600" strokeWidth={3} />
+                      <Check aria-hidden className="mt-1 size-4 shrink-0 text-brand-700" strokeWidth={3} />
                       <span className="leading-relaxed">{item}</span>
                     </li>
                   ))}
@@ -118,7 +118,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="milestones" aria-labelledby="milestones-title" className="scroll-mt-40 bg-white py-16 md:py-24">
+      <section id="milestones" aria-labelledby="milestones-title" className="scroll-mt-40 bg-stone py-16 md:py-24">
         <div className="container-page grid gap-10 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
           <h2 id="milestones-title" className={`${sectionHeading} lg:sticky lg:top-44 lg:self-start`}>
             Key milestones
@@ -128,7 +128,7 @@ export default function AboutPage() {
               <li key={milestone.year} className="relative pb-10 pl-8 last:pb-0">
                 <span aria-hidden className="absolute top-1.5 -left-[0.45rem] size-3 rounded-full bg-brand-600 ring-4 ring-white" />
                 <p className="font-display text-3xl font-semibold tracking-tight text-brand-700">{milestone.year}</p>
-                <p className="mt-2 max-w-2xl leading-relaxed text-ink/80">{milestone.text}</p>
+                <p className="mt-2 max-w-2xl leading-relaxed text-ink">{milestone.text}</p>
               </li>
             ))}
           </ol>

@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+@theme {
+  /* Brand maroon, taken from the existing site and logo */
+  --color-brand-50: #fbf2f2;
+  --color-brand-100: #f5dfe0;
+  --color-brand-200: #e9b9bb;
+  --color-brand-500: #c4343a;
+  --color-brand-600: #a82020;
+  --color-brand-700: #8a1a1d;
+  --color-brand-800: #6a1418;
+
+  /* Dark surfaces: deep oxblood instead of plain black */
+  --color-oxblood: #2a0d10;
+  --color-oxblood-2: #3a1216;
+
+  /* Neutrals */
+  --color-ink: #1b1517;
+  --color-muted: #675d60;
+  --color-stone: #f3f2f0;
+  --color-line: #e3dfdc;
+  --color-gold: #d9ad5f;
+  /* Warm highlight used only for the decorative hero/page-hero spotlight glow — distinct from gold. */
+  --color-glow: #ffe4c8;
+
+  --animate-rise: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-pop: rise 0.18s ease-out both;
+  --animate-spotlight: spotlight 2.2s ease 0.3s 1 both;
+  --animate-spin-slow: spin 80s linear infinite;
+
+  /* ---------- Timing tokens ---------- */
+  /* Canonical values for the CSS keyframes above. src/components/motion/reveal.tsx's JS defaults
+     (duration 0.8, ease "power2.out") are kept deliberately close to these by convention, since GSAP
+     reads its own JS options rather than CSS custom properties — update both together if either changes. */
+  --ease-motion: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-reveal: 0.8s;
+}
+
+@theme inline {
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes spotlight {
+  from { opacity: 0; transform: translate(-8%, -10%) scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Utilities ---------- */
+@utility container-page {
+  width: min(calc(100% - 2 * clamp(1.25rem, 5vw, 3rem)), 80rem);
+  margin-inline: auto;
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ---------- Type scale ----------
+   One fluid clamp per heading level, defined once here instead of as a repeated
+   arbitrary-value string in every component. Only the size + line-height are baked
+   in; font-family, weight and tracking stay as separate utilities at the call site
+   so each heading keeps full control over those. */
+@utility text-display {
+  /* Hero h1 only. */
+  font-size: clamp(2.4rem, 5.6vw, 4.6rem);
+  line-height: 1.02;
+}
+
+@utility text-h1 {
+  /* Inner-page PageHero h1. */
+  font-size: clamp(2.2rem, 4.8vw, 3.9rem);
+  line-height: 1.04;
+}
+
+@utility text-h2 {
+  /* Every section heading, homepage and inner pages alike — the one shared h2 size. */
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  line-height: 1.08;
+}
+
+/* ---------- Section rhythm ----------
+   Two vertical-padding rhythms, each used by several sections. Defined once so a
+   spacing change doesn't need to be repeated at every call site, and so the two
+   rhythms are an explicit, intentional choice rather than copy-pasted py-* pairs. */
+@utility section-py {
+  /* Homepage showcase sections (Scale, Services, Sectors, Leadership). */
+  padding-block: 5rem;
+
+  @media (width >= 48rem) {
+    padding-block: 7rem;
+  }
+}
+
+@utility content-py {
+  /* Denser inner-page content sections (About, Services detail, Investor, FAQ, etc.) — shared
+     components only (content-sections.tsx, intro-block.tsx, faq-list.tsx); page-specific
+     sections on About/Investor/Careers aren't on this token yet, noted as a follow-up. */
+  padding-block: 4rem;
+
+  @media (width >= 48rem) {
+    padding-block: 6rem;
+  }
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    min-width: 20rem;
+  }
+
+  body {
+    background: var(--color-stone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-brand-200);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .theme-dark :focus-visible {
+    outline-color: var(--color-gold);
+  }
+
+  summary::-webkit-details-marker { display: none; }
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: white;
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform 0.15s;
+}
+.skip-link:focus { transform: none; }
+
+/* ---------- Motion safety ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import { ClosingCta } from "@/components/home/closing-cta";
-import { Hero } from "@/components/home/hero";
+import { DaySection } from "@/components/day/DaySection";
+// About section: full-background 3D version. To go back to the split layout (3D left, copy right),
+// replace this line with:
+//   import { CompanyIntroSplit as CompanyIntro } from "@/components/home/company-intro-split";
+import { CompanyIntro } from "@/components/home/company-intro";
+import { BannerHero } from "@/components/home/banner-hero";
+// import { Hero } from "@/components/home/hero"; // parallax photo-wall hero, kept for reference
 import { Leadership } from "@/components/home/leadership";
 import { Scale } from "@/components/home/scale";
 import { Sectors } from "@/components/home/sectors";
 import { Services } from "@/components/home/services";
+import { WhyChooseUs } from "@/components/home/why-choose-us";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -13,15 +20,128 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main id="main-content">
-      <Hero />
-      <Scale />
+      <BannerHero />
+      {/* <DaySection /> */}
+      <CompanyIntro />
       <Services />
+      <Scale />
+      <WhyChooseUs />
       <Sectors />
       <Leadership />
       <ClosingCta />
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import type { Metadata } from "next";
+// import { ClosingCta } from "@/components/home/closing-cta";
+// import { Hero } from "@/components/home/hero";
+// import { Leadership } from "@/components/home/leadership";
+// import { Scale } from "@/components/home/scale";
+// import { Sectors } from "@/components/home/sectors";
+// import { Services } from "@/components/home/services";
+
+// export const metadata: Metadata = {
+//   alternates: { canonical: "/" },
+// };
+
+// export default function HomePage() {
+//   return (
+//     <main id="main-content">
+//       <Hero />
+//       <Scale />
+//       <Services />
+//       <Sectors />
+//       <Leadership />
+//       <ClosingCta />
+//     </main>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import type { Metadata } from "next";
+// import { ClosingCta } from "@/components/home/closing-cta";
+// import { Hero } from "@/components/home/hero";
+// import { Leadership } from "@/components/home/leadership";
+// import { Scale } from "@/components/home/scale";
+// import { Sectors } from "@/components/home/sectors";
+// import { Services } from "@/components/home/services";
+
+// export const metadata: Metadata = {
+//   alternates: { canonical: "/" },
+// };
+
+// export default function HomePage() {
+//   return (
+//     <main id="main-content">
+//       <Hero />
+//       <Scale />
+//       <Services />
+//       <Sectors />
+//       <Leadership />
+//       <ClosingCta />
+//     </main>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+// import type { Metadata } from "next";
+// import { ClosingCta } from "@/components/home/closing-cta";
+// import { Hero } from "@/components/home/hero";
+// import { Leadership } from "@/components/home/leadership";
+// import { Scale } from "@/components/home/scale";
+// import { Sectors } from "@/components/home/sectors";
+// import { Services } from "@/components/home/services";
+
+// export const metadata: Metadata = {
+//   alternates: { canonical: "/" },
+// };
+
+// export default function HomePage() {
+//   return (
+//     <main id="main-content">
+//       <Hero />
+//       <Scale />
+//       <Services />
+//       <Sectors />
+//       <Leadership />
+//       <ClosingCta />
+//     </main>
+//   );
+// }
 
 
 

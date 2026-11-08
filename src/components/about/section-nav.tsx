@@ -65,7 +65,7 @@ export function AboutSectionNav() {
           <li key={link.href} className="shrink-0">
             <a
               href={link.href}
-              className="inline-flex h-10 items-center rounded-full px-4 text-[0.95rem] font-medium text-ink/75 transition-colors hover:bg-white hover:text-ink"
+              className="inline-flex h-10 items-center rounded-full px-4 text-[0.95rem] font-medium text-ink transition-colors hover:bg-brand-50 hover:text-ink"
             >
               {link.label}
             </a>
@@ -99,7 +99,7 @@ export function AboutSectionNav() {
 //           <li key={link.href} className="shrink-0">
 //             <a
 //               href={link.href}
-//               className="inline-flex h-10 items-center rounded-full px-4 text-[0.95rem] font-medium text-ink/75 transition-colors hover:bg-white hover:text-ink"
+//               className="inline-flex h-10 items-center rounded-full px-4 text-[0.95rem] font-medium text-ink transition-colors hover:bg-brand-50 hover:text-ink"
 //             >
 //               {link.label}
 //             </a>
