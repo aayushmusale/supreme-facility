@@ -29,7 +29,7 @@ export function WhyJoin({ paragraphs }: { paragraphs: string[] }) {
   const [lead, ...rest] = paragraphs;
 
   return (
-    <section aria-labelledby="why-join-title" className="content-py bg-white">
+    <section aria-labelledby="why-join-title" className="content-py bg-stone">
       <div className="container-page grid gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] md:gap-16">
         <h2
           id="why-join-title"

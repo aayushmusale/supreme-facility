@@ -129,7 +129,7 @@ export function WhyChooseUs() {
             const Icon = feature.icon;
             return (
               <Reveal key={feature.number} delay={0.05 * (i + 1)} className={cn("h-full", feature.className)}>
-                <article className="group relative h-full min-h-[13.75rem] overflow-hidden rounded-3xl border border-line bg-[#f8f7f5] p-6 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-1 hover:border-brand-700 hover:shadow-xl md:p-7">
+                <article className="group relative h-full min-h-[13.75rem] overflow-hidden rounded-3xl border border-line bg-white p-6 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-1 hover:border-brand-700 hover:shadow-xl md:p-7">
                   <div className="flex items-start justify-between gap-4">
                     <p className="text-[0.72rem] font-semibold tracking-[0.16em] text-brand-700 uppercase">
                       {feature.number} / {feature.label}

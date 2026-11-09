@@ -131,7 +131,7 @@ export function CompanyIntroSplit() {
       ref={section}
       id="company-intro"
       aria-labelledby="company-intro-title"
-      className="bg-white"
+      className="bg-stone"
     >
       <div ref={track} className="lg:h-[440svh] motion-reduce:lg:h-auto">
         <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center motion-reduce:lg:relative motion-reduce:lg:h-auto">
@@ -139,7 +139,7 @@ export function CompanyIntroSplit() {
             {/* The stage: poster photograph underneath, the live 3D campus on top once ready */}
             <div
               ref={stage}
-              className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-[#faf9f7] md:aspect-[4/5] lg:aspect-auto lg:h-[min(76svh,46rem)]"
+              className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-[#f7f5f2] md:aspect-[4/5] lg:aspect-auto lg:h-[min(76svh,46rem)]"
             >
               <Image
                 src={aboutOverview.image}

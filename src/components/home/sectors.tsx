@@ -41,7 +41,7 @@ export function SectorGrid({ linked = true }: { linked?: boolean }) {
 
 export function Sectors() {
   return (
-    <section aria-labelledby="sectors-title" className="bg-white section-py">
+    <section aria-labelledby="sectors-title" className="bg-stone section-py">
       <div className="container-page">
         <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2 id="sectors-title" className="font-display text-h2 font-semibold tracking-[-0.03em]">

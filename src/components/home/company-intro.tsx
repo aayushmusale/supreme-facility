@@ -131,7 +131,7 @@ export function CompanyIntro() {
       ref={section}
       id="company-intro"
       aria-labelledby="company-intro-title"
-      className="bg-[#faf9f7]"
+      className="bg-stone"
     >
       <div ref={track} className="lg:h-[440svh] motion-reduce:lg:h-auto">
         <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center motion-reduce:lg:relative motion-reduce:lg:h-auto motion-reduce:lg:min-h-svh">
@@ -139,7 +139,7 @@ export function CompanyIntro() {
             {/* The stage: poster photograph underneath, the live 3D campus on top once ready */}
             <div
               ref={stage}
-              className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-[#faf9f7] md:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:rounded-none"
+              className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-stone md:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:rounded-none"
             >
               <Image
                 src={aboutOverview.image}
@@ -167,11 +167,11 @@ export function CompanyIntro() {
                   and the campus is never covered by a box; it simply emerges from the right. */}
               <div
                 aria-hidden
-                className="pointer-events-none absolute inset-y-0 left-0 hidden w-[58%] bg-[linear-gradient(to_right,#faf9f7_0%,#faf9f7_68%,rgb(250_249_247/0.75)_82%,rgb(250_249_247/0)_100%)] lg:block"
+                className="pointer-events-none absolute inset-y-0 left-0 hidden w-[58%] bg-[linear-gradient(to_right,#f7f5f2_0%,#f7f5f2_68%,rgb(247_245_242/0.75)_82%,rgb(247_245_242/0)_100%)] lg:block"
               />
 
               {/* On desktop the stage is full-bleed: soften its lower edge into the Services section below. */}
-              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-white to-transparent lg:block" />
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-stone to-transparent lg:block" />
 
               {/* A quiet caption names the operation the camera is on. Decorative: the copy carries the content. */}
               {ready && show3d && !reduced && (
