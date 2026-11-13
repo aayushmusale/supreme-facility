@@ -46,7 +46,7 @@ export function BannerHero({ nextId = "company-intro" }: { nextId?: string }) {
       <a
         href={`#${nextId}`}
         aria-label="Scroll down to the next section"
-        className="group absolute inset-x-0 bottom-8 mx-auto flex w-fit flex-col items-center gap-3 rounded-full px-4 py-2 text-white/85 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:bottom-10"
+        className="group absolute inset-x-0 bottom-8 max-lg:bottom-28 mx-auto flex w-fit flex-col items-center gap-3 rounded-full px-4 py-2 text-white/85 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:bottom-10"
       >
         <span className="text-xs font-medium tracking-[0.24em] uppercase">Scroll</span>
         <span className="flex size-11 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover:border-gold group-hover:bg-gold group-hover:text-ink">

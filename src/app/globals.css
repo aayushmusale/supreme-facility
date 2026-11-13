@@ -232,6 +232,13 @@
    within the same tab (or a reduced-motion visitor) never sees it for even one frame. */
 html[data-skip-loader="true"] #site-loader { display: none !important; }
 
+/* Below 1024px the floating bottom nav dock would cover the last lines of the footer; give the footer room for it. */
+@media (width < 64rem) {
+  footer {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+}
+
 /* ---------- Motion safety ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

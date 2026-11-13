@@ -4,9 +4,33 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  BookOpen,
+  BriefcaseBusiness,
+  Building2,
+  ChartNoAxesCombined,
+  ChevronDown,
+  Ellipsis,
+  Info,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { company, ifmMenu, mainNav, services, type NavLink } from "@/content/site";
 import { cn } from "@/lib/utils";
+
+/** Icon for each primary item in the bottom dock (phones and tablets). */
+const NAV_ICON: Record<string, LucideIcon> = {
+  About: Info,
+  Services: BriefcaseBusiness,
+  Sectors: Building2,
+  Investor: ChartNoAxesCombined,
+  Careers: Users,
+  Resources: BookOpen,
+};
+
+/** The five slots in the phone dock; About and Resources (plus Contact) live behind More. */
+const PHONE_DOCK = ["Services", "Sectors", "Investor", "Careers"] as const;
 
 const otherServices = services.filter((s) => s.href !== ifmMenu.overview.href);
 
@@ -15,11 +39,20 @@ function isActive(pathname: string, href: string) {
   return path === "" ? pathname === "/" : pathname.startsWith(path);
 }
 
+/** A dropdown item counts as active when the current page lives under any of its links. */
+function menuActive(pathname: string, item: (typeof mainNav)[number]) {
+  if (item.kind === "link") return isActive(pathname, item.href);
+  if (item.kind === "menu") return item.items.some((l) => isActive(pathname, l.href));
+  return [ifmMenu.overview.href, "/services/", ...services.map((x) => x.href)].some((h) => isActive(pathname, h));
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileSection, setMobileSection] = useState<string | null>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
@@ -44,10 +77,10 @@ export function SiteHeader() {
       }
     };
     const onPointerDown = (e: PointerEvent) => {
-      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
-        setOpenMenu(null);
-        setMobileOpen(false); // tapping the page behind the menu closes it
-      }
+      const t = e.target as Node;
+      if (headerRef.current && !headerRef.current.contains(t)) setOpenMenu(null);
+      // Tapping the page behind the phone menu closes it (the dock and sheet themselves do not).
+      if (mobileRef.current && !mobileRef.current.contains(t)) setMobileOpen(false);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("keydown", onKey);
@@ -83,9 +116,10 @@ export function SiteHeader() {
   };
 
   const navLinkClass =
-    "inline-flex h-10 items-center gap-1 rounded-full px-2.5 text-[0.9rem] font-medium text-ink/70 xl:px-4 xl:text-[0.95rem] transition-[color,box-shadow,background] duration-200 hover:text-ink aria-[current=page]:neu-raised aria-[current=page]:text-brand-700 aria-expanded:neu-raised aria-expanded:text-ink";
+    "inline-flex h-10 items-center gap-1 rounded-full px-2.5 text-[0.9rem] font-medium text-ink/70 xl:px-4 xl:text-[0.95rem] transition-[color,box-shadow,background] duration-200 hover:text-ink aria-[current=page]:neu-raised aria-[current=page]:text-brand-700 aria-expanded:neu-raised aria-expanded:text-ink data-[active=true]:neu-raised data-[active=true]:text-brand-700";
 
   return (
+    <>
     <header
       ref={headerRef}
       onFocusCapture={() => setHidden(false)}
@@ -93,13 +127,13 @@ export function SiteHeader() {
         "fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] sm:px-4",
         // No transform at all while visible: any transform/translate on this element would turn it into the
         // containing block of the fixed mobile menu panel and collapse that panel to a few pixels.
-        hidden && !mobileOpen && !openMenu ? "-translate-y-[140%]" : "",
+        hidden && !openMenu ? "-translate-y-[140%]" : "",
       )}
     >
       <div
         className={cn(
           "neu-bar relative mx-auto flex h-[4.5rem] max-w-7xl items-center gap-3 rounded-[2rem] pr-3 pl-5 transition-transform duration-300",
-          scrolled || mobileOpen ? "scale-[0.995]" : "",
+          scrolled ? "scale-[0.995]" : "",
         )}
       >
         <Link
@@ -148,6 +182,7 @@ export function SiteHeader() {
                   <button
                     type="button"
                     className={navLinkClass}
+                    data-active={menuActive(pathname, item)}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onPointerDown={(e) => {
@@ -188,70 +223,127 @@ export function SiteHeader() {
           >
             Contact us
           </Link>
-          <button
-            type="button"
-            className="neu-raised inline-flex size-11 items-center justify-center rounded-full text-ink lg:hidden"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-navigation"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMobileOpen((open) => !open)}
-          >
-            {mobileOpen ? <X aria-hidden className="size-6" /> : <Menu aria-hidden className="size-6" />}
-          </button>
-        </div>
-      </div>
-
-      <div
-        id="mobile-navigation"
-        hidden={!mobileOpen}
-        className="fixed inset-x-3 top-[5.5rem] max-h-[calc(100dvh-6.5rem)] animate-pop overflow-y-auto overscroll-contain rounded-3xl border border-line bg-white p-3 shadow-2xl [-webkit-overflow-scrolling:touch] sm:inset-x-4 lg:hidden"
-      >
-        <nav aria-label="Mobile">
-          <ul className="divide-y divide-line">
-            {mainNav.map((item) => {
-              if (item.kind === "link") {
-                return (
-                  <li key={item.label}>
-                    <MobileLink href={item.href} label={item.label} pathname={pathname} onNavigate={closeAll} />
-                  </li>
-                );
-              }
-              return (
-                <li key={item.label}>
-                  <details className="group">
-                    <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-4 text-lg font-medium">
-                      {item.label}
-                      <ChevronDown aria-hidden className="size-5 text-muted transition-transform group-open:rotate-180" />
-                    </summary>
-                    <div className="pb-3 pl-3">
-                      {item.kind === "menu" ? (
-                        item.items.map((link) => (
-                          <MobileLink key={link.href} href={link.href} label={link.label} pathname={pathname} onNavigate={closeAll} small />
-                        ))
-                      ) : (
-                        <MobileServices pathname={pathname} onNavigate={closeAll} />
-                      )}
-                    </div>
-                  </details>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-        <div className="mt-4 grid gap-2 border-t border-line pt-4">
-          <Link
-            href="/contact-us/"
-            onClick={closeAll}
-            className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 font-medium text-white"
-          >
-            Contact us
-          </Link>
-          <a href={company.phone.href} className="inline-flex h-12 items-center justify-center rounded-xl border border-line font-medium">
-            Call {company.phone.display}
-          </a>
         </div>
       </div>
     </header>
+
+      {/* ---- Phone and tablet (< 1024px): floating bottom dock + sheet. Outside <header> so the header's hide-on-scroll
+          transform can never become their containing block. ---- */}
+      <div ref={mobileRef} className="lg:hidden">
+        <div
+          id="mobile-navigation"
+          hidden={!mobileOpen}
+          className="fixed inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-50 max-h-[calc(100dvh-9rem-env(safe-area-inset-bottom))] animate-pop overflow-y-auto overscroll-contain rounded-3xl border border-line bg-white p-3 shadow-2xl [-webkit-overflow-scrolling:touch]"
+        >
+          <nav aria-label="Mobile">
+            <ul className="divide-y divide-line">
+              {mainNav.map((item) => {
+                if (item.kind === "link") {
+                  return (
+                    <li key={item.label}>
+                      <MobileLink href={item.href} label={item.label} pathname={pathname} onNavigate={closeAll} />
+                    </li>
+                  );
+                }
+                return (
+                  <li key={item.label}>
+                    <details
+                      className="group"
+                      open={mobileSection === item.label}
+                      onToggle={(e) => {
+                        const open = e.currentTarget.open;
+                        setMobileSection((cur) => (open ? item.label : cur === item.label ? null : cur));
+                      }}
+                    >
+                      <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between rounded-xl px-3 py-3.5 text-lg font-medium">
+                        {item.label}
+                        <ChevronDown aria-hidden className="size-5 text-muted transition-transform group-open:rotate-180" />
+                      </summary>
+                      <div className="pb-3 pl-3">
+                        {item.kind === "menu" ? (
+                          item.items.map((link) => (
+                            <MobileLink key={link.href} href={link.href} label={link.label} pathname={pathname} onNavigate={closeAll} small />
+                          ))
+                        ) : (
+                          <MobileServices pathname={pathname} onNavigate={closeAll} />
+                        )}
+                      </div>
+                    </details>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+          <div className="mt-4 grid gap-2 border-t border-line pt-4">
+            <Link
+              href="/contact-us/"
+              onClick={closeAll}
+              className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-600 font-medium text-white"
+            >
+              Contact us
+            </Link>
+            <a href={company.phone.href} className="inline-flex h-12 items-center justify-center rounded-xl border border-line font-medium">
+              Call {company.phone.display}
+            </a>
+          </div>
+        </div>
+
+        <nav
+          aria-label="Quick navigation"
+          className="neu-bar fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-50 flex h-[4.25rem] items-center justify-around gap-0.5 rounded-[2rem] px-2"
+        >
+          {PHONE_DOCK.map((label) => {
+            const item = mainNav.find((n) => n.label === label)!;
+            const Icon = NAV_ICON[label];
+            const active = menuActive(pathname, item);
+            const cls = cn(
+              "flex min-h-11 min-w-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[0.69rem] leading-none font-medium transition-[color,box-shadow,background] duration-200",
+              active ? "neu-raised text-brand-700" : "text-ink/65 active:text-ink",
+            );
+            return item.kind === "link" ? (
+              <Link key={label} href={item.href} onClick={closeAll} aria-current={active ? "page" : undefined} className={cls}>
+                <Icon aria-hidden className="size-[1.3rem]" strokeWidth={1.8} />
+                {label}
+              </Link>
+            ) : (
+              <button
+                key={label}
+                type="button"
+                aria-expanded={mobileOpen && mobileSection === label}
+                aria-controls="mobile-navigation"
+                onClick={() => {
+                  const same = mobileOpen && mobileSection === label;
+                  setMobileSection(same ? null : label);
+                  setMobileOpen(!same);
+                }}
+                className={cls}
+              >
+                <Icon aria-hidden className="size-[1.3rem]" strokeWidth={1.8} />
+                {label}
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            aria-expanded={mobileOpen && mobileSection === null}
+            aria-controls="mobile-navigation"
+            aria-label="More: all pages"
+            onClick={() => {
+              const same = mobileOpen && mobileSection === null;
+              setMobileSection(null);
+              setMobileOpen(!same);
+            }}
+            className={cn(
+              "flex min-h-11 min-w-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-1 text-[0.69rem] leading-none font-medium transition-[color,box-shadow,background] duration-200",
+              mobileOpen && mobileSection === null ? "neu-raised text-brand-700" : "text-ink/65 active:text-ink",
+            )}
+          >
+            <Ellipsis aria-hidden className="size-[1.3rem]" strokeWidth={1.8} />
+            More
+          </button>
+        </nav>
+      </div>
+    </>
   );
 }
 
