@@ -12,8 +12,8 @@ import "./globals.css";
  * Runs synchronously, before React hydrates and before the browser paints
  * — this is the whole point of it being a plain inline <script>, not a
  * React effect. Decides whether the loader overlay should be visible at
- * all: skip it if prefers-reduced-motion is set, or if it already played
- * once in this tab's session. Sets a `data-skip-loader` attribute on <html>
+ * all: skip it only if prefers-reduced-motion is set. It plays on every
+ * full page load (and again on page-to-page navigation, driven by SiteLoader). Sets a `data-skip-loader` attribute on <html>
  * that a plain CSS rule in globals.css uses to hide #site-loader — so on a
  * repeat visit within the same tab, the overlay is never visible for even
  * one frame, with no JavaScript needed for the hiding itself (only for this
@@ -21,7 +21,7 @@ import "./globals.css";
  * throw in some private-browsing modes — if it does, the loader simply
  * plays again, which is harmless.
  */
-const LOADER_SKIP_CHECK = `try{var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;var p=sessionStorage.getItem('sfm-loader-played')==='1';if(r||p){document.documentElement.setAttribute('data-skip-loader','true');}}catch(e){}`;
+const LOADER_SKIP_CHECK = `try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.setAttribute('data-skip-loader','true');}}catch(e){}`;
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],

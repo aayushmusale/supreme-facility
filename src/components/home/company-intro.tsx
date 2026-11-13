@@ -141,13 +141,13 @@ export function CompanyIntro() {
               ref={stage}
               className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-stone md:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto lg:rounded-none"
             >
-              <Image
+              {/* <Image
                 src={aboutOverview.image}
                 alt={aboutOverview.imageAlt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className={cn("object-cover transition-opacity duration-700", ready && show3d && "opacity-0")}
-              />
+              /> */}
               <div aria-hidden className="absolute inset-0">
                 {show3d && (
                   <SceneBoundary onError={() => setFailed(true)}>
