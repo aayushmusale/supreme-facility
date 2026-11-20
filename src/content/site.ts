@@ -62,8 +62,8 @@ export const services = [
     href: "/integrated-facility-management/",
     summary:
       "Seamless workplace solutions driven by innovation, technology and expert resources. Our integrated approach keeps your facilities and services running efficiently and improves the experience of everyone who uses them.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
-    alt: "Glass-fronted commercial building",
+    image: "/Engineer%20Operating%20HVAC%20Control%20Panel.png",
+    alt: "Supreme engineer in a hard hat checking an HVAC control panel with a tablet in a plant room",
     includes: [
       { label: "Hard services", href: "/hard-services/" },
       { label: "Soft services", href: "/best-soft-facility-management-services-in-india/" },
@@ -78,32 +78,32 @@ export const services = [
     href: "/supply-chain-solutions/",
     summary:
       "Strategic solutions that simplify supply chain management, streamline processes and support sustainable growth.",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
-    alt: "Warehouse shelves and logistics equipment",
+    image: "/supply_chain.jpg",
+    alt: "Supply chain and warehouse operations",
   },
   {
     title: "Employee Transportation Services",
     href: "/employee-transportation-services/",
     summary:
       "Smooth, secure employee commutes through reliable transportation designed for your workforce's safety, well-being and productivity.",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
-    alt: "Passenger bus on a road",
+    image: "/Supreme%20Employee%20Shuttle%20at%20Chakan.png",
+    alt: "Supreme employee shuttle bus carrying staff past the Chakan Industrial Area, Pune",
   },
   {
     title: "Corporate Food Solutions",
     href: "/corporate-food-solutions/",
     summary:
       "We manage your food and beverage services with precision, delivering nourishment and satisfaction to your workforce.",
-    image: "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
-    alt: "Prepared meal served on a plate",
+    image: "/Hospitality.jpeg",
+    alt: "Corporate food and hospitality service",
   },
   {
     title: "Production Support Services",
     href: "/production-support-services/",
     summary:
       "Better manufacturing efficiency: we manage supporting operations on the floor so your business can focus on its core.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1400&q=80", // TEMPORARY
-    alt: "Industrial production equipment",
+    image: "/Modern%20Indian%20Manufacturing%20Assembly%20Line.png",
+    alt: "Supreme team members working on a manufacturing assembly line",
   },
 ] as const;
 

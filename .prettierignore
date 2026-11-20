@@ -1,0 +1,13 @@
+.next
+node_modules
+public
+package-lock.json
+next-env.d.ts
+*.tsbuildinfo
+.impeccable
+docs
+# Unused legacy stylesheets and scratch files
+src/app/globals0.css
+src/app/globals1.css
+src/app/globals2.css
+src/app/globals3.css

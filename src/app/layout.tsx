@@ -48,6 +48,8 @@ export const metadata: Metadata = {
     siteName: company.legalName,
     locale: "en_IN",
   },
+  // The card image itself comes from app/twitter-image.tsx.
+  twitter: { card: "summary_large_image" },
   // Staging is never indexed. Set ALLOW_INDEXING=true only in approved production.
   robots: allowIndexing ? { index: true, follow: true } : { index: false, follow: false },
 };

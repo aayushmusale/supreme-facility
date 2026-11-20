@@ -67,22 +67,46 @@ export function Scale() {
         let busW = 0;
         let lastT = 0;
         let current = 0;
+        // The parallax layers are tiled artwork. They are drawn a little wider than the stage and
+        // slid with a transform (composited on the GPU) instead of animating background-position,
+        // which repaints the whole layer on every scroll frame. Each layer wraps by one tile.
+        let farTile = 1;
+        let midTile = 1;
+        const DASH_TILE = 80;
+
+        // Wheels and bus are updated through cached setters: far cheaper per frame than gsap.set.
+        const setX = gsap.quickSetter(bus, "x", "px");
+        const setY = gsap.quickSetter(bus, "y", "px");
+        const spinWheels = Array.from(wheels).map((w) => {
+          gsap.set(w, { svgOrigin: `${w.getAttribute("data-cx")} 162` });
+          return gsap.quickSetter(w, "rotation", "deg");
+        });
 
         const measure = () => {
           stageW = sceneEl.clientWidth;
           busW = bus.offsetWidth;
+          if (far.current) {
+            farTile = far.current.offsetHeight * (640 / 160);
+            far.current.style.width = `calc(100% + ${farTile}px)`;
+          }
+          if (mid.current) {
+            midTile = mid.current.offsetHeight * (480 / 90);
+            mid.current.style.width = `calc(100% + ${midTile}px)`;
+          }
+          if (dashes.current) dashes.current.style.width = `calc(100% + ${DASH_TILE}px)`;
         };
         const render = (p: number) => {
           const t = stopParam(p);
           const dist = t * stageW * 0.8;
           const speed = Math.min(1, Math.abs(t - lastT) * 60);
           lastT = t;
-          gsap.set(bus, { x: stopX(t) * stageW - busW / 2, y: Math.sin(dist / 11) * 1.1 * speed });
+          setX(stopX(t) * stageW - busW / 2);
+          setY(Math.sin(dist / 11) * 1.1 * speed);
           const spin = (dist / (busW * 0.047)) * 57.3;
-          wheels.forEach((w) => gsap.set(w, { rotation: spin, svgOrigin: `${w.getAttribute("data-cx")} 162` }));
-          if (dashes.current) dashes.current.style.backgroundPositionX = `${-dist}px`;
-          if (far.current) far.current.style.backgroundPositionX = `${-dist * 0.1}px`;
-          if (mid.current) mid.current.style.backgroundPositionX = `${-dist * 0.32}px`;
+          spinWheels.forEach((set) => set(spin));
+          if (dashes.current) dashes.current.style.transform = `translate3d(${-(dist % DASH_TILE)}px,0,0)`;
+          if (far.current) far.current.style.transform = `translate3d(${-((dist * 0.1) % farTile)}px,0,0)`;
+          if (mid.current) mid.current.style.transform = `translate3d(${-((dist * 0.32) % midTile)}px,0,0)`;
           if (bar.current) bar.current.style.transform = `scaleX(${t / LAST})`;
           const idx = Math.min(LAST, Math.floor(t + 0.02));
           if (idx !== current) {
@@ -200,14 +224,14 @@ export function Scale() {
           </div>
 
           <div ref={scene} className="absolute inset-x-0 bottom-0 h-[62%]">
-            <div ref={far} data-fade className="absolute inset-x-0 bottom-[50%] h-[44%] bg-repeat-x opacity-80" style={{ backgroundImage: FAR, backgroundSize: "auto 100%", backgroundPosition: "bottom left" }} />
-            <div ref={mid} data-fade className="absolute inset-x-0 bottom-[50%] h-[22%] bg-repeat-x" style={{ backgroundImage: MID, backgroundSize: "auto 100%", backgroundPosition: "bottom left" }} />
+            <div ref={far} data-fade className="absolute inset-x-0 bottom-[50%] h-[44%] bg-repeat-x opacity-80" style={{ backgroundImage: FAR, backgroundSize: "auto 100%", backgroundPosition: "bottom left", willChange: "transform" }} />
+            <div ref={mid} data-fade className="absolute inset-x-0 bottom-[50%] h-[22%] bg-repeat-x" style={{ backgroundImage: MID, backgroundSize: "auto 100%", backgroundPosition: "bottom left", willChange: "transform" }} />
 
             {/* ground, kerb, road */}
             <div className="absolute inset-x-0 bottom-0 h-[50%] bg-[#ece6dd]" />
             <div className="absolute inset-x-0 bottom-[48%] h-[2.5%] bg-[#d3cbbf]" />
             <div ref={road} className="absolute inset-x-0 bottom-[24%] h-[24%] bg-[linear-gradient(#4b494d,#37353a)] shadow-[inset_0_6px_8px_-6px_rgb(0_0_0/0.5)]">
-              <div ref={dashes} className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 opacity-80" style={{ backgroundImage: DASH }} />
+              <div ref={dashes} className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 opacity-80" style={{ backgroundImage: DASH, willChange: "transform" }} />
               <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
             </div>
 

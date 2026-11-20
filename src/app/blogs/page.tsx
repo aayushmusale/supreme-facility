@@ -56,7 +56,7 @@ export default function BlogsPage() {
             <Link href="/contact-us/#enquiry" className="font-medium text-brand-700 underline underline-offset-4">
               Contact us
             </Link>{" "}
-            if you're looking for a specific article.
+            if you&apos;re looking for a specific article.
           </p>
         </div>
       </section>

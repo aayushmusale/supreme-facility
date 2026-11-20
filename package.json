@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "analyze": "next analyze"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -18,7 +21,7 @@
     "gsap": "^3.15.0",
     "lucide-react": "^1.61.0",
     "motion": "^14.9.1",
-    "next": "16.4.3",
+    "next": "^16.4.6",
     "postprocessing": "^6.39.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -33,7 +36,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.4.3",
+    "eslint-config-next": "^16.4.6",
+    "prettier": "^3.10.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }

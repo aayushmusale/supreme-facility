@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, Suspense, useContext, useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from "react";
+import { createContext, Suspense, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Lightformer, RoundedBox, useTexture } from "@react-three/drei";
+import { Environment, Lightformer, PerformanceMonitor, RoundedBox, useTexture } from "@react-three/drei";
 import { aboutTimeline, BUS_START_X, busX, sampleAboutCamera, smooth01 } from "@/lib/about/path";
 import { mulberry32 } from "@/lib/day/layout";
 
@@ -724,6 +724,21 @@ function CameraRig({ animate, shift }: { animate: boolean; shift: number }) {
   return null;
 }
 
+/**
+ * The shadow map is the most expensive pass in this scene. Everything that casts a shadow moves
+ * slowly, so redrawing it on every second frame is invisible but halves that cost.
+ */
+function ShadowThrottle() {
+  const frame = useRef(0);
+  useFrame(({ gl }) => {
+    // The renderer's own per-frame redraw is switched off; alternate frames ask for one explicitly.
+    gl.shadowMap.autoUpdate = false;
+    frame.current += 1;
+    gl.shadowMap.needsUpdate = frame.current % 2 === 1;
+  });
+  return null;
+}
+
 function World({ lite }: { lite: boolean }): ReactNode {
   return (
     <>
@@ -763,6 +778,10 @@ export default function AboutScene({
   const quality = useMemo<Quality>(() => ({ shadows: !lite, lite }), [lite]);
   const mats = useMemo(() => makeMaterials(), []);
   useEffect(() => () => Object.values(mats).forEach((m) => m.dispose()), [mats]);
+  // Pixel ratio adapts to the device: it starts sharp and steps down whenever the frame rate drops,
+  // so slower machines trade a little sharpness for smooth scrolling.
+  const maxDpr = lite ? 1.25 : 1.5;
+  const [dpr, setDpr] = useState(maxDpr);
 
   return (
     <Canvas
@@ -770,7 +789,7 @@ export default function AboutScene({
       // mode did not reliably repaint after the lens shift and texture loads.
       frameloop={active ? "always" : "never"}
       shadows={quality.shadows ? "percentage" : false}
-      dpr={lite ? [1, 1.25] : [1, 1.75]}
+      dpr={Math.min(dpr, maxDpr)}
       camera={{ fov: 34, near: 0.5, far: 220, position: [24, 19, 30] }}
       gl={{ alpha: true, antialias: !lite, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
@@ -785,6 +804,11 @@ export default function AboutScene({
     >
       <QualityContext.Provider value={quality}>
         <MatsContext.Provider value={mats}>
+          <PerformanceMonitor
+            flipflops={3}
+            onChange={({ factor }) => setDpr(Math.round((1 + (maxDpr - 1) * factor) * 20) / 20)}
+          />
+          {quality.shadows && <ShadowThrottle />}
           <Lights />
           <CameraRig animate={animate} shift={shift} />
           <Suspense fallback={null}>

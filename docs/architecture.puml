@@ -1,0 +1,165 @@
+@startuml Supreme_Facility_Website_Architecture
+title Supreme Facility Management Website - Architecture
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam roundCorner 12
+skinparam ArrowColor #555555
+skinparam packageStyle rectangle
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #85182A
+}
+skinparam component {
+  BackgroundColor #FFF7F5
+  BorderColor #85182A
+}
+skinparam database {
+  BackgroundColor #F7F5F2
+  BorderColor #85182A
+}
+left to right direction
+
+actor "Visitor\n(phone, tablet, desktop)" as visitor
+actor "Search engine\n(Google)" as google
+
+package "1. Presentation layer - what the visitor sees (Next.js + React)" as presentation {
+  package "Shared frame (every page)" as frame {
+    component "Page loader\n(curtain animation)" as loader
+    component "Scroll progress bar" as progress
+    component "Header\n(desktop top bar,\nmobile bottom dock)" as header
+    component "Footer" as footer
+  }
+
+  package "Pages" as pages {
+    component "Home\n(/)" as home
+    component "About us\n(/about-us/)" as about
+    component "Services\n(/services/)" as services
+    component "Service detail template\n(/[slug]/)" as slug
+    component "Sectors\n(/sectors/)" as sectors
+    component "Investor\n(/investor/)" as investor
+    component "Careers\n(/careers/)" as careers
+    component "Contact us\n(/contact-us/)" as contact
+    component "Blogs and\nEmployee engagement" as blogs
+    component "404 page" as notfound
+  }
+
+  package "Home page sections" as homesections {
+    component "Banner hero" as hero
+    component "Company intro\n+ 3D campus tour" as intro
+    component "Services cards" as svccards
+    component "Scale journey\n(animated numbers)" as scale
+    component "Why choose us" as why
+    component "Sectors marquee" as marquee
+    component "Leadership" as leadership
+    component "Closing call to action" as cta
+  }
+
+  package "Reusable components" as components {
+    component "Page parts\n(hero, FAQ, breadcrumbs,\nrelated links)" as pageparts
+    component "UI parts\n(buttons, cards, counters)" as ui
+    component "Motion helpers\n(GSAP scroll, reveal)" as motion
+    component "3D scenes\n(Three.js)" as three
+    component "Device checks\n(desktop, reduced motion,\n3D support)" as devicecheck
+  }
+}
+
+package "2. Content layer - words and facts stored in code files" as contentlayer {
+  database "site.ts\ncompany, navigation,\nservices, stats" as csite
+  database "about.ts\nintro, values,\nleaders, milestones" as cabout
+  database "services / ifm-services /\ncompany-pages\nservice page text" as cservices
+  database "careers.ts\nopen roles" as ccareers
+  database "investor.ts\ndocuments, board,\ncommittees" as cinvestor
+  database "resources.ts, contact.ts\nblogs, engagement,\noffices" as cresources
+}
+
+package "3. Server layer - runs behind the scenes" as server {
+  component "Enquiry form handler\n(server action)" as action
+  component "Bot checks\n(hidden field, 3-second rule)" as botcheck
+  component "Rate limit\n(5 per 10 min)" as ratelimit
+  component "Validation (Zod)" as validate
+  component "Delivery step" as delivery
+  component "SEO generators\n(sitemap, robots,\npage titles, JSON-LD)" as seo
+  component "Security headers\n(every response)" as secheaders
+}
+
+cloud "4. External services" as external {
+  [Enquiry destination\n(email or CRM)\nNOT YET DECIDED] as dest
+  [Live WordPress site\n(temporary images, documents)] as wp
+  [Unsplash\n(placeholder photos)] as unsplash
+  [Google Fonts] as fonts
+  [Google Maps] as maps
+  [Social media\nLinkedIn, Facebook,\nInstagram, YouTube] as social
+}
+
+' Visitor flow
+visitor --> secheaders : opens an address
+secheaders --> frame
+frame --> pages
+visitor --> contact : sends an enquiry
+
+' Frame
+loader -[hidden]- progress
+header -[hidden]- footer
+
+' Pages use sections and components
+home --> homesections
+slug --> pageparts
+about --> pageparts
+services --> pageparts
+sectors --> pageparts
+investor --> pageparts
+careers --> pageparts
+blogs --> pageparts
+pages ..> notfound : unknown address
+intro --> three
+intro --> motion
+scale --> motion
+homesections --> ui
+devicecheck ..> three : decides if 3D runs
+devicecheck ..> motion : decides if animation runs
+
+' Content feeds pages
+csite --> home
+csite --> header
+csite --> footer
+cabout --> about
+cabout --> intro
+cabout --> why
+cabout --> leadership
+cservices --> slug
+cservices --> services
+ccareers --> careers
+cinvestor --> investor
+cresources --> blogs
+cresources --> contact
+
+' Enquiry flow
+contact --> action : submit form
+action --> botcheck
+botcheck --> ratelimit
+ratelimit --> validate
+validate --> delivery
+delivery --> dest : approved destination\n(pending)
+
+' SEO
+google --> seo : reads sitemap and robots
+seo --> pages
+
+' External resources
+presentation ..> fonts : fonts
+presentation ..> wp : some images / documents
+presentation ..> unsplash : placeholder photos
+contact ..> maps : office map link
+footer ..> social : social links
+
+note bottom of dest
+  Until a destination is approved,
+  delivery fails safely and the visitor
+  is shown phone and email instead.
+end note
+
+note bottom of server
+  No database and no user login.
+  All page text lives in the content layer.
+end note
+@enduml

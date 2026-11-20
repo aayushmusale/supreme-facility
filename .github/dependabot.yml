@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # Weekly dependency update pull requests. Security advisories open their own PRs regardless of this schedule.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for the 3D and animation stack, which must move together.
+      graphics:
+        patterns: ["three", "@react-three/*", "@types/three", "postprocessing", "gsap", "@gsap/*"]
+      # One PR for Next.js, React and their type and lint packages.
+      framework:
+        patterns: ["next", "eslint-config-next", "react", "react-dom", "@types/react", "@types/react-dom"]

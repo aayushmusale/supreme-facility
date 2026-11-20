@@ -1,0 +1,101 @@
+@startuml Supreme_Facility_Website_Flow
+title Supreme Facility Website - Algorithmic Flow
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam roundCorner 12
+skinparam ArrowColor #555555
+skinparam activity {
+  BackgroundColor #FFF7F5
+  BorderColor #85182A
+  DiamondBackgroundColor #F7F5F2
+  DiamondBorderColor #85182A
+}
+skinparam partition {
+  BorderColor #85182A
+  BackgroundColor #FFFFFF
+}
+
+start
+:Visitor opens a web address;
+
+partition "Server: handle request" {
+  :Add security headers to response;
+  if (Address is a fixed page?\n(/, /about-us/, /services/, /sectors/,\n/investor/, /careers/, /contact-us/,\n/blogs/, /employee-engagement/)) then (yes)
+    :Load that page;
+  else (no)
+    :Read slug from address;
+    if (Slug found in content files?) then (yes)
+      :Load service / company template\nwith text from content layer;
+    else (no)
+      :Show 404 page;
+      stop
+    endif
+  endif
+}
+
+partition "Browser: show page" {
+  if (Prefers reduced motion?) then (yes)
+    :Skip loader animation;
+  else (no)
+    :Play loader curtain;
+  endif
+  :Render header, page, footer;
+  if (Screen 1024 px or wider?) then (yes)
+    :Show top navigation bar\n(hides on scroll down, returns on scroll up);
+  else (no)
+    :Show bottom dock + "More" sheet;
+  endif
+}
+
+partition "Home page: company intro" {
+  if (Desktop AND motion allowed\nAND 3D supported?) then (yes)
+    :Run 3D campus tour driven by scroll;
+    repeat
+      :Read scroll progress;
+      :Move camera to next scene;
+      if (Scene is tower / bus / cafeteria?) then (yes)
+        :Show matching service text on the left;
+      else (no)
+        :Show company introduction;
+      endif
+    repeat while (More scroll?) is (yes)
+    ->no;
+  else (no)
+    :Show introduction followed by\nlist of all five services;
+  endif
+}
+
+if (Visitor submits enquiry form?) then (yes)
+  partition "Server: enquiry handler" {
+    if (Hidden field filled\nOR submitted within 3 seconds?) then (yes)
+      :Pretend success, send nothing;
+      :Show success message;
+      stop
+    else (no)
+    endif
+    if (More than 5 enquiries from this network\nin 10 minutes?) then (yes)
+      :Show "too many enquiries" error;
+      stop
+    else (no)
+    endif
+    if (Fields valid? (Zod)) then (no)
+      :Show field errors;
+      stop
+    else (yes)
+    endif
+    if (Approved delivery destination configured?) then (yes)
+      :Deliver enquiry to email / CRM;
+      :Show success message;
+    else (no)
+      :Fail safely;
+      :Show error with phone and email;
+    endif
+  }
+else (no)
+  :Visitor keeps browsing;
+endif
+
+:Visitor clicks another link;
+:Loader curtain plays, next page loads;
+stop
+@enduml

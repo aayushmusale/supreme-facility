@@ -1,5 +1,6 @@
-import Image from "next/image";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ButtonLink } from "@/components/ui/button";
+import { HeroSlideshow } from "@/components/home/hero-slideshow";
 import { Archivo_Black } from "next/font/google";
 
 // A static (non-variable) face: variable fonts carry overlapping contours that show up as stray
@@ -17,18 +18,11 @@ export function BannerHero({ nextId = "company-intro" }: { nextId?: string }) {
       aria-labelledby="hero-title"
       className="relative isolate flex min-h-svh flex-col overflow-hidden bg-oxblood text-white"
     >
-      <Image
-        src="/bg_image_hero.avif"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="-z-20 object-cover"
-      />
+      <HeroSlideshow />
       {/* Even scrim so white outlined letters hold their edge on any part of the photo. */}
       <div aria-hidden className="absolute inset-0 -z-10 bg-ink/55" />
 
-      <div className="container-page flex flex-1 flex-col justify-center pt-28 pb-32 md:pt-32">
+      <div className="container-page flex flex-1 flex-col justify-center pt-28 pb-32 max-lg:pb-44 md:pt-32">
         <p className="font-display text-base font-medium tracking-[0.04em] text-white/90 sm:text-lg md:text-xl">
           Delivering Excellence Since 1983
         </p>
@@ -41,12 +35,25 @@ export function BannerHero({ nextId = "company-intro" }: { nextId?: string }) {
             Excellence Model
           </span>
         </h1>
-      </div>  
+        <p className="mt-6 max-w-[38rem] text-base leading-relaxed text-pretty text-white/90 md:text-lg">
+          Integrated facility management, supply chain, employee transportation, corporate food and production
+          support, run by one partner across India.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <ButtonLink href="/contact-us/#enquiry" variant="light" size="lg">
+            Request a quote
+            <ArrowUpRight aria-hidden className="size-4" />
+          </ButtonLink>
+          <ButtonLink href="/services/" variant="outline-light" size="lg">
+            Our services
+          </ButtonLink>
+        </div>
+      </div>
 
       <a
         href={`#${nextId}`}
         aria-label="Scroll down to the next section"
-        className="group absolute inset-x-0 bottom-8 max-lg:bottom-28 mx-auto flex w-fit flex-col items-center gap-3 rounded-full px-4 py-2 text-white/85 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:bottom-10"
+        className="group absolute inset-x-0 bottom-8 max-lg:bottom-28 max-[24rem]:hidden mx-auto flex w-fit flex-col items-center gap-3 rounded-full px-4 py-2 text-white/85 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:bottom-10"
       >
         <span className="text-xs font-medium tracking-[0.24em] uppercase">Scroll</span>
         <span className="flex size-11 items-center justify-center rounded-full border border-white/60 transition-colors duration-300 group-hover:border-gold group-hover:bg-gold group-hover:text-ink">

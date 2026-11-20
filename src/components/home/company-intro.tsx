@@ -1,11 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { aboutIntro, aboutOverview } from "@/content/about";
+import { aboutIntro } from "@/content/about";
+import { services } from "@/content/site";
 import { SceneBoundary } from "@/components/day/SceneBoundary";
 import { detectQuality } from "@/lib/day/quality";
 import { aboutTimeline, sceneIndex, SCENE_LABELS } from "@/lib/about/path";
@@ -14,6 +15,9 @@ import { useDesktop } from "@/lib/motion/use-desktop";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { useWebglSupport } from "@/lib/motion/use-webgl-support";
 import { cn } from "@/lib/utils";
+
+/** Which service the camera is on in each scene (index into `services`); null = the company as a whole. */
+const SCENE_SERVICE = [null, 0, 2, 3, null] as const;
 
 // ssr:false: the scene touches WebGL on import. It is requested only once the stage is near the
 // viewport and WebGL exists, so everyone else never downloads three.js for this section.
@@ -34,6 +38,57 @@ const AboutScene = dynamic(() => import("@/components/three/about-scene"), { ssr
  *  - Reduced motion: the finished composition, rendered once and held still.
  *  - No WebGL, or the context is lost: the original photograph. All copy is in the DOM regardless.
  */
+
+/** The company introduction: the copy shown before the tour starts, after it ends, and on every device that does not run it. */
+function Intro() {
+  return (
+    <>
+      <h2
+        id="company-intro-title"
+        className="font-display text-h2 font-semibold tracking-[-0.03em] text-balance lg:text-[clamp(2rem,3vw,2.75rem)]"
+      >
+        A one-stop partner, built over four decades.
+      </h2>
+      <p className="mt-5 max-w-[34rem] text-lg leading-[1.7] text-pretty text-ink/80 lg:max-w-[28rem] lg:text-base lg:leading-[1.75] lg:text-ink/85">{aboutIntro}</p>
+      <ButtonLink href="/about-us/" variant="outline" className="mt-8">
+        About Supreme
+        <ArrowUpRight aria-hidden className="size-4" />
+      </ButtonLink>
+    </>
+  );
+}
+
+/** What the camera is looking at, in words: the approved service summary, plus a link to its page. */
+function ServicePanel({ index, service }: { index: number; service: (typeof services)[number] }) {
+  const includes = "includes" in service ? service.includes : null;
+  return (
+    <>
+      <p className="text-xs font-semibold tracking-[0.18em] text-brand-700 uppercase tabular-nums">
+        0{index + 1} / {service.title}
+      </p>
+      <h3 className="mt-3 font-display text-[clamp(1.9rem,2.8vw,2.5rem)] leading-[1.08] font-semibold tracking-[-0.03em] text-balance">
+        {service.title}
+      </h3>
+      <p className="mt-5 max-w-[28rem] text-base leading-[1.75] text-pretty text-ink/85">{service.summary}</p>
+      {includes && (
+        <ul className="mt-5 flex max-w-[28rem] flex-wrap gap-2">
+          {includes.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href} className="inline-flex h-8 items-center rounded-full border border-ink/10 bg-white px-3 text-[0.8rem] text-ink transition-colors hover:border-brand-700 hover:text-brand-700">
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      <ButtonLink href={service.href} variant="outline" className="mt-8">
+        Explore {service.title.toLowerCase()}
+        <ArrowUpRight aria-hidden className="size-4" />
+      </ButtonLink>
+    </>
+  );
+}
+
 export function CompanyIntro() {
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
@@ -125,6 +180,10 @@ export function CompanyIntro() {
   const show3d = webgl && near && !failed;
   const lite = lowPower || !desktop;
   const label = SCENE_LABELS[scene];
+  // The left copy follows the tour only where the scene is pinned beside it (desktop, motion on, 3D running).
+  // Everywhere else every service is simply listed under the introduction, so nothing depends on scroll position.
+  const interactive = desktop && !reduced && show3d;
+  const activeService = interactive ? SCENE_SERVICE[scene] : null;
 
   return (
     <section
@@ -196,17 +255,51 @@ export function CompanyIntro() {
                 <span aria-hidden className="h-px w-8 bg-brand-700" />
                 About Supreme
               </p>
-              <h2
-                id="company-intro-title"
-                className="mt-4 font-display text-h2 font-semibold tracking-[-0.03em] text-balance lg:text-[clamp(2rem,3vw,2.75rem)]"
-              >
-                A one-stop partner, built over four decades.
-              </h2>
-              <p className="mt-5 max-w-[34rem] text-lg leading-[1.7] text-pretty text-ink/80 lg:max-w-[28rem] lg:text-base lg:leading-[1.75] lg:text-ink/85">{aboutIntro}</p>
-              <ButtonLink href="/about-us/" variant="outline" className="mt-8">
-                About Supreme
-                <ArrowUpRight aria-hidden className="size-4" />
-              </ButtonLink>
+              {interactive ? (
+                <div className="mt-4 grid">
+                  {/* One cell, several layers: the section keeps the height of its tallest panel, so nothing jumps. */}
+                  <div
+                    inert={activeService !== null}
+                    className={cn(
+                      "col-start-1 row-start-1 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none",
+                      activeService === null ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+                    )}
+                  >
+                    <Intro />
+                  </div>
+                  {SCENE_SERVICE.map((svc, sceneIdx) =>
+                    svc === null ? null : (
+                      <div
+                        key={svc}
+                        inert={activeService !== svc}
+                        className={cn(
+                          "col-start-1 row-start-1 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none",
+                          activeService === svc ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
+                        )}
+                      >
+                        <ServicePanel index={sceneIdx} service={services[svc]} />
+                      </div>
+                    ),
+                  )}
+                </div>
+              ) : (
+                <div className="mt-4">
+                  <Intro />
+                  <ul className="mt-8 space-y-4 border-t border-line pt-6">
+                    {services.map((service) => (
+                      <li key={service.href}>
+                        <Link href={service.href} className="group block">
+                          <span className="flex items-center gap-1.5 font-display text-lg font-semibold tracking-[-0.01em] group-hover:text-brand-700">
+                            {service.title}
+                            <ArrowUpRight aria-hidden className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                          </span>
+                          <span className="mt-1 line-clamp-2 block text-sm leading-relaxed text-muted">{service.summary}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
